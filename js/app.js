@@ -653,6 +653,11 @@ function startSurvey() {
   showProfileError = false;
   showValidationErrors = false;
   if (!profile.date) profile.date = new Date().toISOString().split('T')[0];
+  answers = {};
+  overallAnswers = {};
+  currentConstructIndex = 0;
+  currentItemIndex = 0;
+  clearProgress();
   goToConstruct(0);
 }
 
