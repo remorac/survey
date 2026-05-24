@@ -317,20 +317,6 @@ let showValidationErrors = false;
 const STORAGE_KEY = 'expert-judgment-v2';
 const THEME_KEY = 'expert-theme';
 
-function applyDefaults() {
-  CONSTRUCTS.forEach(con => {
-    con.items.forEach(item => {
-      ['_c1','_c2','_c3','_c4'].forEach(s => {
-        if (!answers[item.code + s]) answers[item.code + s] = 'yes';
-      });
-      if (!answers[item.code + '_cvi']) answers[item.code + '_cvi'] = 1;
-    });
-  });
-  ['oq1','oq2','oq3','oq4','oq5','oq6'].forEach(k => {
-    if (!overallAnswers[k]) overallAnswers[k] = 'yes';
-  });
-}
-
 // ═══════════════════════════════════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════════════════════════════════
@@ -517,7 +503,6 @@ function restoreProgress() {
   overallAnswers = data.overallAnswers || {};
   profile = data.profile || {};
   showProfileError = data.showProfileError || false;
-  applyDefaults();
   const banner = document.getElementById('restore-banner');
   if (banner) banner.remove();
   render();
@@ -830,6 +815,29 @@ function setOverall(key, val) {
   overallAnswers[key] = val;
   debouncedSave();
   render();
+}
+
+function autofillAll() {
+  const L = l();
+  profile.name = profile.name || 'Test Expert';
+  profile.date = profile.date || new Date().toISOString().split('T')[0];
+  profile.institution = profile.institution || 'Test University';
+  profile.position = profile.position || 'Lecturer';
+  profile.edu = profile.edu || L.eduOpts[0];
+  profile.exp = profile.exp || L.expOpts[0];
+  profile.expertise = profile.expertise || L.expertiseOpts[0];
+
+  CONSTRUCTS.forEach(con => {
+    con.items.forEach(item => {
+      ['_c1','_c2','_c3','_c4'].forEach(s => { answers[item.code + s] = 'yes'; });
+      answers[item.code + '_cvi'] = 1;
+    });
+  });
+  ['oq1','oq2','oq3','oq4','oq5','oq6'].forEach(k => { overallAnswers[k] = 'yes'; });
+
+  saveProgress();
+  render();
+  showToast('Autofilled all fields', 'success');
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1280,7 +1288,6 @@ if (document.readyState === 'loading') {
 } else {
   attachEventListeners();
   initTheme();
-  applyDefaults();
   setLang(detectLocale());
   checkRestore();
 }
