@@ -6,7 +6,7 @@ const T = {
   en: {
     title: "Expert Judgment Instrument",
     subtitle: "Metaverse Readiness in Higher Education Institution (HEI)",
-    badge: "Pre-Adoption Readiness · TOE Framework · PLS-SEM",
+    badge: "Metaverse Readiness Framework",
     start: 'Begin Assessment',
     prev: 'Back',
     next: 'Next',
@@ -52,7 +52,7 @@ const T = {
     noteFinalPh: "Any additional comments not covered above...",
     noteNeg: 'TRP items are NEGATIVE toward Technology Readiness. Score YES on C1 means you agree the item appropriately measures risk perception — not that such conditions are desirable.',
     noteDV: 'MR items are HOLISTIC/GLOBAL items, distinct from all predictor items. Assess whether these four items represent comprehensive institutional readiness without overlapping predictor items.',
-    noteIcvi: "I-CVI: An item is valid if ≥ 78% of experts score 3 or 4. S-CVI/Ave ≥ 0.90 = good content validity.",
+    noteIcvi: "",
     profileFields: ["Full Name & Title","Institution / Affiliation","Current Position","Expertise Area","Highest Education","Years of Experience","Date"],
     expertiseOpts: ["Information Systems / Educational Technology","Higher Education Management","VR / AR / Metaverse in Education","Quantitative Research / PLS-SEM","HEI IT Practitioner","Other"],
     eduOpts: ["Master's (S2)","Doctorate (S3)","Professor"],
