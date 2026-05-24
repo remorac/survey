@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expert Judgment — Metaverse Readiness HEI</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<script src="config.js"></script>
+<style>
+/* ── Reset & Variables (Stripe Design System) ───────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary: #533afd;
+  --primary-press: #2e2b8c;
+  --primary-subdued: #b9b9f9;
+  --primary-deep: #4434d4;
+  --brand-dark: #1c1e54;
+  --ink: #0d253d;
+  --ink-secondary: #273951;
+  --ink-mute: #64748d;
+  --canvas: #ffffff;
+  --canvas-soft: #f6f9fc;
+  --canvas-cream: #f5e9d4;
+  --hairline: #e3e8ee;
+  --hairline-input: #a8c3de;
+  --ruby: #ea2261;
+  --green: #15803D;
+  --amber: #9b6829;
+  --yes-bg: #F0FFF4;
+  --no-bg: #FFF1F2;
+  /* Specific Dimension colors unified to Stripe palette, or we can use slight tints */
+  --T: var(--primary);
+  --O: var(--primary-deep);
+  --E: var(--brand-dark);
+  --purple: var(--ruby);
+  --border: var(--hairline);
+  --text: var(--ink);
+  --bg: var(--canvas-soft);
+  --card: var(--canvas);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-feature-settings: "ss01";
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────────── */
+.shell {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+  position: relative;
+  z-index: 10;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 420px;
+  background: var(--brand-dark);
+  z-index: 0;
+}
+
+/* ── Top bar ─────────────────────────────────────────────────────────── */
+.topbar {
+  background: var(--brand-dark);
+  color: var(--canvas);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.topbar-title { 
+  font-size: 16px; 
+  font-weight: 600;
+  line-height: 1.3; 
+  letter-spacing: -0.2px;
+}
+.topbar-title span { 
+  display: block; 
+  font-weight: 400; 
+  font-size: 13px; 
+  color: var(--primary-subdued); 
+  margin-top: 2px; 
+}
+.lang-toggle { display: flex; gap: 4px; }
+.lang-btn {
+  padding: 6px 14px; 
+  border-radius: 9999px; 
+  border: 1px solid transparent;
+  background: transparent; 
+  color: rgba(255,255,255,0.7); 
+  font-size: 13px; 
+  font-weight: 500;
+  cursor: pointer; 
+  transition: all .2s;
+}
+.lang-btn.active { 
+  background: rgba(255,255,255,0.15); 
+  color: var(--canvas); 
+  font-weight: 600; 
+  border-color: rgba(255,255,255,0.1);
+}
+
+/* ── Progress bar ────────────────────────────────────────────────────── */
+.progress-wrap { 
+  background: var(--brand-dark); 
+  padding: 8px 24px 16px; 
+  position: sticky; 
+  top: 65px; 
+  z-index: 99; 
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.progress-bar-bg { 
+  background: rgba(255,255,255,0.15); 
+  border-radius: 99px; 
+  height: 4px; 
+}
+.progress-bar-fill { 
+  height: 100%; 
+  border-radius: 99px; 
+  background: var(--primary-subdued); 
+  transition: width .4s ease; 
+}
+.progress-label { 
+  color: var(--primary-subdued); 
+  font-size: 11px; 
+  margin-top: 8px; 
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Cover / Intro ───────────────────────────────────────────────────── */
+.cover {
+  text-align: center;
+  padding: 80px 24px 40px;
+  position: relative;
+  z-index: 10;
+}
+.cover-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.1);
+  color: var(--canvas);
+  border: 1px solid rgba(255,255,255,0.2);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+.cover h1 {
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--canvas);
+  line-height: 1.15;
+  letter-spacing: -0.96px;
+  margin-bottom: 16px;
+}
+.cover h2 {
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--primary-subdued);
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+  margin-bottom: 40px;
+}
+.cover-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 560px;
+  margin: 0 auto 40px;
+  text-align: left;
+  background: var(--canvas);
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: rgba(0,55,112,0.08) 0 8px 24px, rgba(0,55,112,0.04) 0 2px 6px;
+}
+.cover-meta label { 
+  font-size: 13px; 
+  color: var(--ink); 
+  font-weight: 500; 
+  margin-bottom: 6px; 
+  display: block; 
+}
+.cover-meta input, .cover-meta select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--hairline-input);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 15px;
+  background: var(--canvas);
+  color: var(--ink);
+  transition: all .2s;
+}
+.cover-meta input:focus, .cover-meta select:focus {
+  outline: none; 
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(83, 58, 253, 0.15);
+}
+.cover-meta .full { grid-column: 1/-1; }
+
+/* ── Instructions box ────────────────────────────────────────────────── */
+.instr-box {
+  background: var(--brand-dark);
+  color: var(--canvas);
+  border-radius: 12px;
+  padding: 32px;
+  margin: 0 0 32px;
+  font-size: 15px;
+  line-height: 1.6;
+  box-shadow: rgba(0,55,112,0.08) 0 8px 24px;
+}
+.instr-box h3 { 
+  font-size: 20px; 
+  font-weight: 300; 
+  margin-bottom: 16px; 
+  letter-spacing: -0.2px;
+}
+.instr-box li { margin-left: 20px; margin-bottom: 8px; }
+.scale-grid {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 20px;
+}
+.scale-chip {
+  border-radius: 6px; padding: 10px; text-align: center;
+  font-size: 13px; font-weight: 500; line-height: 1.4;
+  background: rgba(255,255,255,0.1);
+}
+
+/* ── Section header ──────────────────────────────────────────────────── */
+.section-hdr {
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 40px 0 20px;
+  color: var(--canvas);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0;
+  background: var(--brand-dark);
+}
+.dim-T { background: var(--primary); }
+.dim-O { background: var(--primary-deep); }
+.dim-E { background: var(--ink-secondary); }
+.dim-DV { background: var(--brand-dark); }
+.dim-overall { background: var(--brand-dark); }
+
+/* ── Construct sub-header ────────────────────────────────────────────── */
+.con-hdr {
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 24px 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--hairline);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.con-hdr .con-def {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--ink-mute);
+  display: block;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* ── Item card ───────────────────────────────────────────────────────── */
+.item-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  transition: box-shadow .2s, border-color .2s;
+  box-shadow: rgba(0,55,112,0.08) 0 1px 3px;
+}
+.item-card:hover { box-shadow: rgba(0,55,112,0.08) 0 8px 24px, rgba(0,55,112,0.04) 0 2px 6px; }
+.item-card.answered { border-color: var(--primary); }
+.item-card.error-state { border-color: var(--ruby); box-shadow: 0 0 0 3px rgba(234, 34, 97, 0.1); }
+
+.item-code { 
+  display: inline-block;
+  background: var(--canvas-soft);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px; 
+  font-weight: 600; 
+  letter-spacing: 0.05em; 
+  color: var(--ink-mute); 
+  margin-bottom: 12px; 
+}
+.item-name { font-weight: 500; font-size: 18px; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.2px; }
+.item-def  { 
+  font-size: 14px; 
+  color: var(--ink-mute); 
+  line-height: 1.6; 
+  margin-bottom: 20px; 
+  padding: 12px 16px; 
+  background: var(--canvas-soft); 
+  border-radius: 8px; 
+  border-left: 3px solid var(--primary-subdued); 
+}
+.item-def strong { color: var(--ink); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; font-weight: 600; }
+
+/* ── Criteria grid ───────────────────────────────────────────────────── */
+.criteria-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.criteria-table thead th {
+  background: var(--canvas-soft); 
+  color: var(--ink-mute);
+  font-size: 11px; 
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600; 
+  padding: 12px 16px; 
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.criteria-table thead th.th-yn  { text-align: center; width: 140px; }
+.criteria-table thead th.th-fb  { width: 42%; }
+.criteria-table tr { }
+.criteria-table tbody tr td { border-bottom: 1px solid var(--border); }
+.criteria-table tbody tr:last-child td { border-bottom: none; }
+.criteria-table tbody tr:nth-child(even) td { background: var(--canvas-soft); }
+.criteria-table tbody tr:nth-child(odd)  td { background: var(--canvas); }
+
+.crit-cell { padding: 16px; vertical-align: top; }
+.crit-cell .criterion-label { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.crit-cell .criterion-q { font-size: 13px; color: var(--ink-mute); line-height: 1.5; }
+
+.yn-cell { padding: 16px 12px; text-align: center; vertical-align: middle; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+.yn-stack { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.yn-btn {
+  width: 110px; 
+  padding: 8px 16px; 
+  border-radius: 9999px; 
+  border: 1px solid var(--border);
+  background: var(--canvas); 
+  cursor: pointer; 
+  font-family: inherit;
+  font-size: 13px; 
+  font-weight: 500; 
+  transition: all .2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.yn-btn.yes { color: var(--ink); }
+.yn-btn.yes.active { background: var(--primary); border-color: var(--primary); color: var(--canvas); }
+.yn-btn.no  { color: var(--ink); }
+.yn-btn.no.active  { background: var(--brand-dark); border-color: var(--brand-dark); color: var(--canvas); }
+.yn-btn:hover:not(.active) { background: var(--canvas-soft); }
+
+.fb-cell { padding: 16px; vertical-align: top; }
+.fb-cell .fb-prompt { font-size: 11px; color: var(--ink-mute); margin-bottom: 8px; font-weight: 500; }
+.fb-cell textarea {
+  width: 100%; 
+  padding: 10px 12px; 
+  border: 1px solid var(--hairline-input);
+  border-radius: 6px; 
+  font-family: inherit; 
+  font-size: 13px;
+  resize: vertical; 
+  min-height: 70px; 
+  background: var(--canvas);
+  transition: all .2s; 
+  color: var(--ink); 
+  line-height: 1.5;
+}
+.fb-cell textarea:focus { 
+  outline: none; 
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(83, 58, 253, 0.15);
+}
+
+.addl-row td { background: var(--canvas-cream) !important; }
+.addl-label { font-size: 14px; font-weight: 600; color: var(--amber); margin-bottom: 4px; }
+.addl-sub   { font-size: 13px; color: var(--ink-mute); margin-bottom: 12px; }
+
+/* ── CVI score ───────────────────────────────────────────────────────── */
+.cvi-row {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--canvas-soft);
+  border-radius: 8px;
+}
+.cvi-label { font-size: 14px; font-weight: 600; color: var(--ink); }
+.cvi-btns  { display: flex; gap: 8px; }
+.cvi-btn {
+  width: 44px; height: 44px; 
+  border-radius: 9999px; 
+  border: 1px solid var(--border);
+  background: var(--canvas); 
+  cursor: pointer; 
+  font-family: inherit;
+  font-size: 16px; 
+  font-weight: 500; 
+  transition: all .2s;
+  font-feature-settings: "tnum";
+}
+.cvi-btn[data-val="1"].active { background: var(--ruby); border-color: var(--ruby); color: var(--canvas); }
+.cvi-btn[data-val="2"].active { background: var(--amber); border-color: var(--amber); color: var(--canvas); }
+.cvi-btn[data-val="3"].active { background: var(--primary-deep); border-color: var(--primary-deep); color: var(--canvas); }
+.cvi-btn[data-val="4"].active { background: var(--primary); border-color: var(--primary); color: var(--canvas); }
+.cvi-btn:hover:not(.active) { background: var(--canvas-soft); border-color: var(--hairline-input); }
+
+/* ── Overall section ─────────────────────────────────────────────────── */
+.overall-q {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px; margin-bottom: 16px;
+  box-shadow: rgba(0,55,112,0.08) 0 1px 3px;
+}
+.overall-q p { font-size: 15px; margin-bottom: 16px; color: var(--ink); font-weight: 500; }
+.overall-q .radio-opts { display: flex; flex-direction: column; gap: 8px; }
+.radio-opt {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 16px; border: 1px solid var(--border);
+  border-radius: 8px; cursor: pointer; transition: all .2s;
+}
+.radio-opt:hover { background: var(--canvas-soft); }
+.radio-opt.selected { background: var(--canvas-soft); border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+.radio-opt input[type=radio] { margin-top: 3px; accent-color: var(--primary); }
+.radio-opt span { font-size: 14px; line-height: 1.5; color: var(--ink); }
+
+.final-decision { display: flex; flex-direction: column; gap: 12px; }
+.decision-btn {
+  padding: 16px 20px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--card); text-align: left; cursor: pointer; font-family: inherit;
+  font-size: 15px; font-weight: 500; transition: all .2s; display: flex; align-items: center; gap: 12px;
+}
+.decision-btn.d0.selected { background: var(--yes-bg); border-color: var(--green); color: var(--green); }
+.decision-btn.d1.selected { background: var(--canvas-soft); border-color: var(--primary); color: var(--primary); }
+.decision-btn.d2.selected { background: var(--canvas-cream); border-color: var(--amber); color: var(--amber); }
+.decision-btn.d3.selected { background: var(--no-bg); border-color: var(--ruby); color: var(--ruby); }
+.decision-btn:hover:not(.selected) { background: var(--canvas-soft); }
+
+/* ── Navigation ──────────────────────────────────────────────────────── */
+.nav-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 48px 0 0; gap: 16px;
+}
+.nav-btn {
+  padding: 12px 24px; border-radius: 9999px; border: 1px solid transparent; cursor: pointer;
+  font-family: inherit; font-size: 15px; font-weight: 500;
+  transition: all .2s; display: flex; align-items: center; gap: 8px;
+}
+.nav-prev { background: var(--canvas-soft); color: var(--ink); border-color: var(--border); }
+.nav-prev:hover { background: var(--hairline); }
+.nav-next { background: var(--primary); color: var(--canvas); }
+.nav-next:hover { background: var(--primary-press); }
+.nav-next:disabled { opacity: .5; cursor: not-allowed; }
+.nav-submit { background: var(--brand-dark); color: var(--canvas); }
+.nav-submit:hover { opacity: 0.9; }
+
+.page-indicator { font-size: 14px; color: var(--ink-mute); text-align: center; font-feature-settings: "tnum"; }
+
+/* ── Toast ───────────────────────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(100px);
+  background: var(--brand-dark); color: var(--canvas); padding: 14px 24px; border-radius: 8px;
+  font-size: 14px; font-weight: 500; z-index: 999; transition: transform .3s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15); max-width: 90vw; text-align: center;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.success { background: var(--primary); }
+.toast.error   { background: var(--ruby); }
+
+/* ── Thank you screen ──────────────────────────────────────────────── */
+.thankyou { 
+  text-align: center; 
+  padding: 80px 24px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.thankyou-card {
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 48px 40px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: rgba(0,55,112,0.08) 0 8px 24px, rgba(0,55,112,0.04) 0 2px 6px;
+}
+.thankyou-card .check-icon { 
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--canvas);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 32px;
+}
+.thankyou-card h2 { 
+  font-size: 28px; 
+  font-weight: 500; 
+  letter-spacing: -0.56px; 
+  color: var(--ink); 
+  margin-bottom: 12px; 
+}
+.thankyou-card p { 
+  color: var(--ink-mute); 
+  font-size: 15px; 
+  max-width: 360px; 
+  margin: 0 auto; 
+  line-height: 1.6; 
+}
+.thankyou-card .thankyou-divider {
+  width: 48px; height: 2px;
+  background: var(--hairline);
+  margin: 24px auto;
+}
+.thankyou-card .thankyou-meta {
+  font-size: 12px;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+/* ── Misc ────────────────────────────────────────────────────────────── */
+.hidden { display: none !important; }
+.note-box {
+  border-radius: 8px; padding: 12px 16px; font-size: 14px;
+  line-height: 1.5; margin-bottom: 16px; font-weight: 500;
+}
+.note-neg  { background: var(--no-bg); color: var(--ruby); }
+.note-dv   { background: var(--canvas-soft); color: var(--primary); }
+.note-icvi { background: var(--canvas-cream); color: var(--amber); }
+
+/* ── Typography Tabular ──────────────────────────────────────────────── */
+.tabular-data { font-feature-settings: "tnum"; letter-spacing: -0.42px; }
+
+/* ── Bootstrap Icon Tweaks ──────────────────────────────────────────── */
+.bi { vertical-align: -0.125em; font-style: normal; }
+.yn-btn .bi { font-size: 14px; }
+.nav-btn .bi { font-size: 14px; }
+.decision-btn .bi { font-size: 18px; flex-shrink: 0; }
+.note-box .bi { font-size: 16px; margin-right: 4px; }
+.thankyou .check .bi { font-size: 64px; }
+
+/* ── Card Micro-lift on Hover ───────────────────────────────────────── */
+.item-card { transition: box-shadow .2s, border-color .2s, transform .2s; }
+.item-card:hover { transform: translateY(-2px); }
+.overall-q { transition: box-shadow .2s, transform .2s; }
+.overall-q:hover { transform: translateY(-1px); box-shadow: rgba(0,55,112,0.08) 0 8px 24px; }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="topbar-title">
+    Expert Judgment / Penilaian Ahli
+    <span>Metaverse Readiness — HEI</span>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
+    <button class="lang-btn" onclick="setLang('id')" id="btn-id">ID</button>
+  </div>
+</div>
+
+<!-- Progress -->
+<div class="progress-wrap">
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="progress-label" id="prog-label">Step 1 of 11</div>
+</div>
+
+<!-- Main content -->
+<div class="shell" id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════════════════
+const T = {
+  en: {
+    title: "Expert Judgment Instrument",
+    subtitle: "Metaverse Readiness in Higher Education Institution (HEI)",
+    badge: "Pre-Adoption Readiness · TOE Framework · PLS-SEM",
+    start: '<i class="bi bi-arrow-right-circle"></i> Begin Assessment',
+    prev: '<i class="bi bi-chevron-left"></i> Previous',
+    next: 'Next <i class="bi bi-chevron-right"></i>',
+    submit: "Submit",
+    pageOf: (a,b) => `Page ${a} of ${b}`,
+    defLabel: "Definition:",
+    cviLabel: "CVI Relevance Score:",
+    cviScale: ["Not Relevant","Major Revision","Minor Revision","Highly Relevant"],
+    fbLabel: "Comments / Suggestions (required if NO):",
+    fbLabelAddl: "Additional Notes / Expert Suggestions",
+    fbSubAddl: "Proposed wording changes, more appropriate references, or other notes:",
+    fbPhC1: "If NO, why?",
+    fbPhC2: "Wording improvement suggestions:",
+    fbPhC3: "If NO, what is your suggestion?",
+    fbPhC4: "If NO, which construct would be more appropriate?",
+    thCriteria: "Assessment Criteria",
+    thAssessment: "Expert Assessment",
+    thComments: "Comments / Reasons",
+    fbPlaceholder: "Write your comments or suggestions here...",
+    yes: '<i class="bi bi-check-lg"></i> YES', no: '<i class="bi bi-x-lg"></i> NO',
+    c1Label: "C1. Content Relevance",
+    c2Label: "C2. Clarity of Wording",
+    c3Label: "C3. HEI Context Fit",
+    c4LabelFn: code => `C4. Fit with [${code}]`,
+    c1Q: "Is this item relevant and important for measuring this construct?",
+    c2Q: "Is the wording clear, unambiguous, and understandable by HEI officials?",
+    c3Q: "Can this be answered from an institutional perspective without direct metaverse experience?",
+    c4QFn: (code,name) => `Is this item thematically appropriate under '${code} — ${name}'?`,
+    overallTitle: "Overall Model Assessment",
+    overallQ1: "The hierarchical model structure (Dimension → Construct → Item) is logical for a metaverse readiness framework.",
+    overallQ2: "The three dimensions (Technology, Organization, Environment Readiness) adequately cover critical readiness aspects.",
+    overallQ3: "The six constructs sufficiently represent all important aspects to be measured.",
+    overallQ4: "The items are overall appropriate for the Indonesian HEI institutional context.",
+    overallQ5: "The language used is easily understood by HEI structural officials.",
+    overallQ6: "The total number of items (33) is proportional and manageable for respondents.",
+    finalTitle: "Final Decision",
+    finalOpts: [
+      '<i class="bi bi-check-circle"></i> SUITABLE — All items are valid and clear; no revision needed.',
+      '<i class="bi bi-pencil-square"></i> SUITABLE with minor revisions — Some items need minor wording adjustments.',
+      '<i class="bi bi-exclamation-triangle"></i> MAJOR REVISION REQUIRED — Some items or constructs need substantial changes.',
+      '<i class="bi bi-x-circle"></i> NOT SUITABLE — The questionnaire needs to be rebuilt.'
+    ],
+    noteFinal: "Additional notes / general recommendations:",
+    noteFinalPh: "Any additional comments not covered above...",
+    noteNeg: '<i class="bi bi-exclamation-triangle"></i> TRP items are NEGATIVE toward Technology Readiness. Score YES on C1 means you agree the item appropriately measures risk perception — not that such conditions are desirable.',
+    noteDV: '<i class="bi bi-info-circle"></i> MR items are HOLISTIC/GLOBAL items, distinct from all predictor items. Assess whether these four items represent comprehensive institutional readiness without overlapping predictor items.',
+    noteIcvi: "I-CVI: An item is valid if ≥ 78% of experts score 3 or 4. S-CVI/Ave ≥ 0.90 = good content validity.",
+    profileFields: ["Full Name & Title","Institution / Affiliation","Current Position","Expertise Area","Highest Education","Years of Experience","Date"],
+    expertiseOpts: ["Information Systems / Educational Technology","Higher Education Management","VR / AR / Metaverse in Education","Quantitative Research / PLS-SEM","HEI IT Practitioner","Other"],
+    eduOpts: ["Master's (S2)","Doctorate (S3)","Professor"],
+    expOpts: ["5–10 years","10–15 years","> 15 years"],
+    instrTitle: "Instructions",
+    instrItems: [
+      'Mark <i class="bi bi-check-lg"></i> YES or <i class="bi bi-x-lg"></i> NO for each criterion (C1–C4) per item.',
+      "If NO — you must write comments or suggestions in the feedback box.",
+      "If YES but with improvement notes — still write them in the feedback box.",
+      "Provide a CVI Relevance Score (1–4) for each item.",
+    ],
+    thankyouTitle: "Thank you!",
+    thankyouMsg: "Your expert assessment has been submitted successfully. Your input is invaluable for improving this research instrument.",
+    submitting: "Submitting...",
+    errRequired: "Please complete all required fields before continuing.",
+    errProfile: "Please fill in all profile fields before continuing.",
+    successMsg: "Assessment submitted successfully!",
+    errorMsg: "Submission failed. Please try again or contact the researcher.",
+    dimLabels: { T:"Technology Readiness", O:"Organization Readiness", E:"Environment Readiness", DV:"Dependent Variable" },
+  },
+  id: {
+    title: "Instrumen Expert Judgment",
+    subtitle: "Kesiapan Metaverse pada Institusi Pendidikan Tinggi (HEI)",
+    badge: "Pre-Adoption Readiness · TOE Framework · PLS-SEM",
+    start: '<i class="bi bi-arrow-right-circle"></i> Mulai Penilaian',
+    prev: '<i class="bi bi-chevron-left"></i> Sebelumnya',
+    next: 'Selanjutnya <i class="bi bi-chevron-right"></i>',
+    submit: "Kirim",
+    pageOf: (a,b) => `Halaman ${a} dari ${b}`,
+    defLabel: "Definisi:",
+    cviLabel: "Skor Relevansi CVI:",
+    cviScale: ["Tidak Relevan","Revisi Mayor","Revisi Minor","Sangat Relevan"],
+    fbLabel: "Komentar / Saran (wajib jika TIDAK):",
+    fbLabelAddl: "Catatan Tambahan / Saran Ahli",
+    fbSubAddl: "Usulan perubahan redaksi, referensi yang lebih tepat, atau catatan lain:",
+    fbPhC1: "Jika TIDAK, mengapa?",
+    fbPhC2: "Saran perbaikan redaksi:",
+    fbPhC3: "Jika TIDAK, bagaimana saran Anda?",
+    fbPhC4: "Jika TIDAK, lebih tepat di konstruk mana?",
+    thCriteria: "Kriteria Penilaian",
+    thAssessment: "Penilaian Ahli",
+    thComments: "Komentar / Alasan",
+    fbPlaceholder: "Tuliskan komentar atau saran Anda di sini...",
+    yes: '<i class="bi bi-check-lg"></i> YA', no: '<i class="bi bi-x-lg"></i> TIDAK',
+    c1Label: "C1. Relevansi Konten",
+    c2Label: "C2. Kejelasan Redaksi",
+    c3Label: "C3. Kesesuaian Konteks HEI",
+    c4LabelFn: code => `C4. Kesesuaian [${code}]`,
+    c1Q: "Apakah item ini relevan dan penting untuk mengukur konstruk ini?",
+    c2Q: "Apakah redaksi jelas, tidak ambigu, dan mudah dipahami pejabat HEI?",
+    c3Q: "Apakah dapat dijawab dari perspektif institusional tanpa pengalaman langsung dengan platform metaverse?",
+    c4QFn: (code,name) => `Apakah item ini tematik sesuai di bawah konstruk '${code} — ${name}'?`,
+    overallTitle: "Penilaian Model Keseluruhan",
+    overallQ1: "Struktur hierarki model (Dimensi → Konstruk → Item) sudah logis sebagai kerangka kesiapan metaverse.",
+    overallQ2: "Tiga dimensi (Technology, Organization, Environment Readiness) sudah cukup mewakili aspek kritis kesiapan.",
+    overallQ3: "Enam konstruk sudah cukup mewakili seluruh aspek penting yang perlu diukur.",
+    overallQ4: "Item-item secara keseluruhan sudah sesuai konteks institusi HEI di Indonesia.",
+    overallQ5: "Bahasa yang digunakan mudah dipahami oleh pejabat struktural HEI.",
+    overallQ6: "Jumlah total item (33) sudah proporsional dan tidak memberatkan responden.",
+    finalTitle: "Keputusan Akhir",
+    finalOpts: [
+      '<i class="bi bi-check-circle"></i> LAYAK — Semua item valid dan jelas; tidak perlu revisi.',
+      '<i class="bi bi-pencil-square"></i> LAYAK dengan revisi minor — Sebagian item perlu perbaikan redaksi kecil.',
+      '<i class="bi bi-exclamation-triangle"></i> PERLU REVISI MAYOR — Beberapa item atau konstruk perlu diubah secara substansial.',
+      '<i class="bi bi-x-circle"></i> TIDAK LAYAK — Kuesioner perlu dibangun ulang.'
+    ],
+    noteFinal: "Catatan umum / saran akhir:",
+    noteFinalPh: "Tambahkan masukan umum yang belum tercakup...",
+    noteNeg: '<i class="bi bi-exclamation-triangle"></i> Item TRP bersifat NEGATIF terhadap Technology Readiness. Skor YA pada C1 berarti Anda setuju item ini tepat mengukur persepsi risiko — bukan berarti kondisi tersebut diinginkan.',
+    noteDV: '<i class="bi bi-info-circle"></i> Item MR adalah penilaian HOLISTIK/GLOBAL yang berbeda dari item prediktor. Nilai apakah keempat item ini cukup mewakili kesiapan menyeluruh TANPA tumpang tindih dengan item prediktor.',
+    noteIcvi: "I-CVI: Item valid jika ≥ 78% expert memberi skor 3 atau 4. S-CVI/Ave ≥ 0.90 = model memiliki content validity yang baik.",
+    profileFields: ["Nama Lengkap & Gelar","Instansi / Afiliasi","Jabatan Saat Ini","Bidang Keahlian","Pendidikan Tertinggi","Pengalaman","Tanggal Pengisian"],
+    expertiseOpts: ["Information Systems / Educational Technology","Manajemen Pendidikan Tinggi","Teknologi VR / AR / Metaverse dalam Pendidikan","Metodologi Kuantitatif / PLS-SEM","Praktisi IT Perguruan Tinggi","Lainnya"],
+    eduOpts: ["S2 (Master)","S3 (Doktor)","Profesor"],
+    expOpts: ["5–10 tahun","10–15 tahun","> 15 tahun"],
+    instrTitle: "Petunjuk Pengisian",
+    instrItems: [
+      'Beri tanda <i class="bi bi-check-lg"></i> YA atau <i class="bi bi-x-lg"></i> TIDAK untuk setiap kriteria (C1–C4) per item.',
+      "Jika TIDAK — wajib menuliskan komentar atau saran pada kotak masukan.",
+      "Jika YA tetapi ada catatan perbaikan — tetap tuliskan pada kotak masukan.",
+      "Berikan Skor Relevansi CVI (1–4) untuk setiap item.",
+    ],
+    thankyouTitle: "Terima Kasih!",
+    thankyouMsg: "Penilaian ahli Anda telah berhasil dikirim. Masukan Anda sangat berharga untuk penyempurnaan instrumen penelitian ini.",
+    submitting: "Mengirim...",
+    errRequired: "Harap lengkapi semua kolom yang diperlukan sebelum melanjutkan.",
+    errProfile: "Harap lengkapi semua data profil sebelum melanjutkan.",
+    successMsg: "Penilaian berhasil dikirim!",
+    errorMsg: "Pengiriman gagal. Silakan coba lagi atau hubungi peneliti.",
+    dimLabels: { T:"Technology Readiness", O:"Organization Readiness", E:"Environment Readiness", DV:"Variabel Dependen" },
+  }
+};
+
+// ── Survey structure ──────────────────────────────────────────────────
+const CONSTRUCTS = [
+  { code:"MTA", name:"Metaverse Technology Awareness", dim:"T",
+    def: { en:"The level of knowledge and beliefs of HEI institutions about metaverse technology capabilities and their relevance to academic activities.",
+           id:"Tingkat pengetahuan dan keyakinan institusi HEI tentang kapabilitas teknologi metaverse dan relevansinya untuk kegiatan akademik." },
+    items: [
+      { code:"MTA1", name:"Awareness of Immersive Capability",
+        def:{ en:"The degree of institutional understanding of metaverse technology's immersive capabilities in creating virtual environments relevant to academic learning contexts.",
+              id:"Derajat pemahaman institusi tentang kemampuan imersif teknologi metaverse dalam menciptakan lingkungan virtual yang relevan untuk konteks pembelajaran akademik." }},
+      { code:"MTA2", name:"Awareness of Interaction Features",
+        def:{ en:"The institution's belief that metaverse enables adaptive immersion level adjustment according to diverse pedagogical needs in the academic environment.",
+              id:"Keyakinan institusi bahwa metaverse memungkinkan pengaturan tingkat imersi yang adaptif sesuai kebutuhan pedagogis yang beragam di lingkungan akademik." }},
+      { code:"MTA3", name:"Awareness of Natural Interaction",
+        def:{ en:"The institution's understanding of metaverse natural interaction features (gesture, voice, haptic) that support intuitive user engagement in virtual environments.",
+              id:"Pemahaman institusi tentang fitur interaksi alami metaverse (gesture, suara, haptic) yang mendukung keterlibatan pengguna secara intuitif dalam lingkungan virtual." }},
+      { code:"MTA4", name:"Awareness of Adaptive Capability",
+        def:{ en:"The institution's awareness of the contextual adaptive capability of metaverse systems in responding to user needs and situations during academic activities.",
+              id:"Kesadaran institusi tentang kemampuan adaptif kontekstual sistem metaverse dalam merespons kebutuhan dan situasi pengguna selama kegiatan akademik." }},
+      { code:"MTA5", name:"Awareness of Accessibility",
+        def:{ en:"The institution's understanding of cross-device and cross-location access as a key metaverse technology feature to support academic community flexibility.",
+              id:"Pemahaman institusi tentang kemampuan akses lintas perangkat dan lokasi sebagai fitur kunci teknologi metaverse untuk mendukung fleksibilitas civitas academica." }},
+    ]},
+  { code:"TB", name:"Technology Benefits", dim:"T",
+    def:{ en:"Expectations of benefits and ease of metaverse implementation in the HEI institutional context.",
+          id:"Ekspektasi manfaat dan kemudahan implementasi metaverse dalam konteks institusional HEI." },
+    items:[
+      { code:"TB1", name:"Performance Expectancy",
+        def:{ en:"The institution's expectation that metaverse utilization will significantly improve the quality of learning processes and students' academic achievement.",
+              id:"Ekspektasi institusi bahwa pemanfaatan metaverse akan meningkatkan kualitas proses pembelajaran dan capaian akademik mahasiswa secara signifikan." }},
+      { code:"TB2", name:"Anticipated Benefits",
+        def:{ en:"The institution's projected long-term strategic and competitive benefits anticipated from metaverse integration in higher education.",
+              id:"Proyeksi manfaat strategis dan kompetitif jangka panjang yang diantisipasi institusi dari integrasi metaverse dalam pendidikan tinggi." }},
+      { code:"TB3", name:"Task Technology Fit",
+        def:{ en:"Assessment of the fit between metaverse technology's functional capabilities and the specific academic task characteristics carried out at the institution.",
+              id:"Penilaian kesesuaian antara kapabilitas fungsional teknologi metaverse dengan karakteristik tugas akademik spesifik yang dilaksanakan di institusi." }},
+      { code:"TB4", name:"Implementation Ease Expectation",
+        def:{ en:"The institution's expectations regarding the ease and feasibility of implementing metaverse technology through its available technical resources.",
+              id:"Ekspektasi institusi terhadap tingkat kemudahan dan kelayakan implementasi teknologi metaverse oleh sumber daya teknis yang dimiliki." }},
+      { code:"TB5", name:"Operational Simplicity Expectation",
+        def:{ en:"The expectation that the complexity of daily operational management of metaverse is comparable and not significantly different from the e-learning systems already used.",
+              id:"Ekspektasi bahwa kompleksitas pengelolaan operasional harian metaverse setara dan tidak jauh berbeda dari sistem e-learning yang telah digunakan institusi." }},
+      { code:"TB6", name:"Trainability Expectation",
+        def:{ en:"The expectation of the academic community's ability to learn and master metaverse technology use within a reasonable training duration.",
+              id:"Ekspektasi kemampuan civitas academica untuk mempelajari dan menguasai penggunaan teknologi metaverse dalam durasi pelatihan yang reasonable." }},
+    ]},
+  { code:"TRP", name:"Technology Risk Perception", dim:"T", isNeg:true,
+    def:{ en:"HEI institution's perception of risks and concerns regarding metaverse integration.",
+          id:"Persepsi risiko dan kekhawatiran institusi HEI terhadap integrasi metaverse." },
+    items:[
+      { code:"TRP1", name:"Perceived Cyber Risk",
+        def:{ en:"The institution's perception of the probability and impact of cybersecurity threats, data breaches, and privacy violations that may arise from metaverse integration.",
+              id:"Persepsi institusi terhadap probabilitas dan dampak ancaman keamanan siber, kebocoran data, dan pelanggaran privasi yang mungkin timbul dari integrasi metaverse." }},
+      { code:"TRP2", name:"Perceived Adoption Risk",
+        def:{ en:"The institution's assessment of potential financial, operational, and reputational risks accompanying metaverse technology implementation.",
+              id:"Penilaian institusi terhadap potensi risiko finansial, operasional, dan reputasional yang menyertai implementasi teknologi metaverse." }},
+      { code:"TRP3", name:"Risk Barrier to Adoption",
+        def:{ en:"Perception of uncertainty about metaverse technology's security and reliability as a factor inhibiting institutional readiness toward metaverse.",
+              id:"Persepsi ketidakpastian tentang keamanan dan reliabilitas teknologi metaverse sebagai faktor penghambat kesiapan institusi terhadap metaverse." }},
+    ]},
+  { code:"OD", name:"Organizational Disposition", dim:"O",
+    def:{ en:"HEI institution's collective orientation, attitude, and motivation toward new technologies including metaverse.",
+          id:"Orientasi, sikap, dan motivasi kolektif institusi HEI terhadap teknologi baru termasuk metaverse." },
+    items:[
+      { code:"OD1", name:"Technology Optimism",
+        def:{ en:"The institution's collective positive orientation toward new technology, reflecting the belief that technological innovation — including metaverse — provides academic benefits.",
+              id:"Orientasi positif kolektif institusi terhadap teknologi baru yang mencerminkan keyakinan bahwa inovasi teknologi — termasuk metaverse — memberi manfaat akademik." }},
+      { code:"OD2", name:"Leadership Support",
+        def:{ en:"The level of support and commitment from institutional leadership and key stakeholders toward exploring and applying innovative technology in education.",
+              id:"Tingkat dukungan dan komitmen pimpinan serta pemangku kepentingan utama institusi terhadap eksplorasi dan penerapan teknologi inovatif dalam pendidikan." }},
+      { code:"OD3", name:"Innovation Culture",
+        def:{ en:"The degree of institutional organizational culture's openness toward integrating technological innovation in learning and research activities.",
+              id:"Derajat keterbukaan budaya organisasional institusi terhadap integrasi inovasi teknologi dalam kegiatan pembelajaran dan penelitian." }},
+      { code:"OD4", name:"Hedonic Motivation",
+        def:{ en:"The institution's priority in developing attractive and engaging learning experiences, with metaverse viewed as an appropriate medium for achieving this.",
+              id:"Prioritas institusi terhadap pengembangan pengalaman belajar yang menarik dan engaging, dengan metaverse dipandang sebagai media yang tepat untuk mewujudkannya." }},
+      { code:"OD5", name:"Positive Attitudes",
+        def:{ en:"The overall evaluative attitude of institutional stakeholders toward the possibility of using metaverse in the higher education context.",
+              id:"Sikap evaluatif keseluruhan pemangku kepentingan institusi terhadap kemungkinan penggunaan metaverse dalam konteks pendidikan tinggi." }},
+    ]},
+  { code:"IC", name:"Instructional Competence", dim:"O",
+    def:{ en:"HEI institution's pedagogical-technological competence and knowledge capacity as a foundation for readiness toward metaverse.",
+          id:"Kompetensi pedagogik-teknologi dan kapasitas pengetahuan institusional HEI sebagai fondasi kesiapan terhadap metaverse." },
+    items:[
+      { code:"IC1", name:"TPACK Capacity",
+        def:{ en:"The institution's capacity to integrate Technological Knowledge, Pedagogical Knowledge, and Content Knowledge (TPACK) to support metaverse technology integration.",
+              id:"Kapasitas institusi dalam mengintegrasikan Technological Knowledge, Pedagogical Knowledge, dan Content Knowledge (TPACK) untuk mendukung integrasi teknologi metaverse." }},
+      { code:"IC2", name:"Faculty Technology Competence",
+        def:{ en:"The level of technological competence possessed by lecturers as a foundation for readiness to learn and integrate metaverse in teaching.",
+              id:"Tingkat kompetensi teknologi yang dimiliki dosen sebagai fondasi kesiapan untuk mempelajari dan mengintegrasikan metaverse dalam pengajaran." }},
+      { code:"IC3", name:"Knowledge Sharing",
+        def:{ en:"The availability of culture, processes, and infrastructure that facilitate knowledge exchange about new educational technology among units and faculties.",
+              id:"Ketersediaan budaya, proses, dan infrastruktur yang memfasilitasi pertukaran pengetahuan tentang teknologi pendidikan baru antar unit dan fakultas dalam institusi." }},
+      { code:"IC4", name:"Knowledge Generation",
+        def:{ en:"The institution's R&D capacity in generating new knowledge about digital technology utilization in learning through research and development programs.",
+              id:"Kapasitas R&D institusi dalam menghasilkan pengetahuan baru tentang pemanfaatan teknologi digital dalam pembelajaran melalui riset dan program pengembangan." }},
+      { code:"IC5", name:"Technology Trust",
+        def:{ en:"The institution's level of trust in the reliability, integrity, and security of cloud-based educational technology platforms and virtual environments.",
+              id:"Tingkat kepercayaan institusi terhadap keandalan, integritas, dan keamanan platform teknologi pendidikan berbasis cloud dan lingkungan virtual." }},
+    ]},
+  { code:"ExE", name:"Enabling Environment", dim:"E",
+    def:{ en:"External environmental pressures and supporting conditions that influence HEI readiness toward metaverse.",
+          id:"Tekanan lingkungan eksternal dan kondisi pendukung yang mempengaruhi kesiapan HEI terhadap metaverse." },
+    items:[
+      { code:"ExE1", name:"Social Influence",
+        def:{ en:"The degree of normative pressure from significant external bodies (government, accreditation agencies, educational associations) that promotes institutional readiness toward metaverse.",
+              id:"Derajat tekanan normatif dari lembaga eksternal signifikan (pemerintah, badan akreditasi, dan asosiasi pendidikan) yang mendorong kesiapan institusi terhadap teknologi metaverse." }},
+      { code:"ExE2", name:"Herd Behaviour",
+        def:{ en:"The institution's tendency to increase its readiness toward metaverse due to the influence of trends adopted by other leading universities (mimetic isomorphism / bandwagon effect).",
+              id:"Kecenderungan institusi meningkatkan kesiapannya terhadap metaverse karena pengaruh tren yang sedang dijalankan oleh perguruan tinggi terkemuka lain (mimetic isomorphism / bandwagon effect)." }},
+      { code:"ExE3", name:"Industry Trend",
+        def:{ en:"The influence of metaverse utilization trends and dynamics by other educational institutions on the institution's strategic readiness considerations.",
+              id:"Pengaruh tren dan dinamika pemanfaatan metaverse oleh institusi pendidikan lain terhadap pertimbangan strategis kesiapan institusi." }},
+      { code:"ExE4", name:"Facilitating Conditions",
+        def:{ en:"The availability and adequacy of external infrastructure supporting metaverse implementation — internet networks, cloud ecosystem, hardware supply chains, and local vendors.",
+              id:"Ketersediaan dan kecukupan infrastruktur eksternal pendukung implementasi metaverse — jaringan internet, ekosistem cloud, rantai pasokan hardware, dan vendor lokal." }},
+      { code:"ExE5", name:"Government Policy & Support",
+        def:{ en:"The adequacy of government policy support, regulatory frameworks, and national funding programs for digital transformation and metaverse utilization in higher education.",
+              id:"Kecukupan dukungan kebijakan pemerintah, kerangka regulasi, dan program pendanaan nasional untuk transformasi digital dan pemanfaatan metaverse dalam pendidikan tinggi." }},
+    ]},
+  { code:"MR", name:"Metaverse Readiness", dim:"DV", isDV:true,
+    def:{ en:"Holistic and overall assessment of HEI institution's readiness to adopt metaverse — a dependent variable with global assessment items.",
+          id:"Penilaian holistik dan keseluruhan tentang kesiapan institusi HEI untuk mengadopsi metaverse — variabel dependen dengan item penilaian global." },
+    items:[
+      { code:"MR1", name:"Overall Readiness",
+        def:{ en:"Overall holistic assessment of the institution's readiness to adopt metaverse technology in higher education.",
+              id:"Penilaian holistik keseluruhan tentang kesiapan institusi untuk mengadopsi teknologi metaverse dalam pendidikan tinggi." }},
+      { code:"MR2", name:"Readiness Adequacy",
+        def:{ en:"Comprehensive perception of the institution's level of readiness to integrate metaverse into academic processes and activities.",
+              id:"Persepsi menyeluruh tentang tingkat kesiapan institusi dalam mengintegrasikan metaverse ke dalam proses dan kegiatan akademik." }},
+      { code:"MR3", name:"Comparative Readiness",
+        def:{ en:"Comparative assessment of the institution's metaverse adoption readiness compared to other comparable universities.",
+              id:"Penilaian komparatif kesiapan adopsi metaverse institusi dibandingkan dengan perguruan tinggi lain yang sebanding." }},
+      { code:"MR4", name:"Prerequisite Fulfillment",
+        def:{ en:"Assessment of the fulfillment of key prerequisites required to begin metaverse implementation in the institution's learning activities.",
+              id:"Penilaian pemenuhan prasyarat-prasyarat utama yang diperlukan untuk memulai implementasi metaverse dalam kegiatan pembelajaran institusi." }},
+    ]},
+];
+
+// ═══════════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════════
+let lang = 'en';
+let currentPage = 0; // 0=cover, 1..N=item pages, N+1=overall, N+2=done
+let answers = {};    // { itemCode_cx: 'yes'|'no', itemCode_cvi: 1-4, itemCode_fb: str }
+let overallAnswers = {}; // { oq1: 'yes'|'no', ... oq6, decision, noteFinal }
+let profile = {};
+
+// Build pages: cover + one page per construct + overall
+const PAGES = ['cover', ...CONSTRUCTS.map(c=>c.code), 'overall'];
+const TOTAL_PAGES = PAGES.length;
+
+// ═══════════════════════════════════════════════════════════════════════
+// GOOGLE SHEETS CONFIG (Now in config.js)
+// ═══════════════════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════════════
+const l = () => T[lang];
+const $ = id => document.getElementById(id);
+const setLang = code => {
+  lang = code;
+  $('btn-en').classList.toggle('active', code==='en');
+  $('btn-id').classList.toggle('active', code==='id');
+  render();
+};
+
+function showToast(msg, type='', dur=3000){
+  const t=$('toast');
+  t.textContent=msg;
+  t.className='toast '+(type||'');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),dur);
+}
+
+function updateProgress(){
+  const pct = currentPage===0 ? 0 : Math.round((currentPage/TOTAL_PAGES)*100);
+  $('prog-fill').style.width = pct+'%';
+  const L=l();
+  if(currentPage===0) $('prog-label').textContent='';
+  else if(currentPage>=TOTAL_PAGES) $('prog-label').textContent='100%';
+  else $('prog-label').textContent = L.pageOf(currentPage, TOTAL_PAGES-1) + ` — ${pct}%`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// ANSWER HELPERS
+// ═══════════════════════════════════════════════════════════════════════
+function setYN(key, val){
+  answers[key]=val;
+  render();
+}
+function setCVI(key, val){
+  answers[key]=val;
+  render();
+}
+function getVal(key){ return answers[key]; }
+
+function setOverall(key,val){ overallAnswers[key]=val; render(); }
+function getOverall(key){ return overallAnswers[key]; }
+
+// ═══════════════════════════════════════════════════════════════════════
+// VALIDATION
+// ═══════════════════════════════════════════════════════════════════════
+function validateConstruct(code){
+  const con = CONSTRUCTS.find(c=>c.code===code);
+  if(!con) return true;
+  for(const item of con.items){
+    if(!answers[item.code+'_c1'] || !answers[item.code+'_c2'] ||
+       !answers[item.code+'_c3'] || !answers[item.code+'_c4'] ||
+       !answers[item.code+'_cvi']) return false;
+  }
+  return true;
+}
+function validateProfile(){
+  return profile.name && profile.institution && profile.position &&
+         profile.expertise && profile.edu && profile.exp;
+}
+function validateOverall(){
+  if(!overallAnswers.oq1||!overallAnswers.oq2||!overallAnswers.oq3||
+     !overallAnswers.oq4||!overallAnswers.oq5||!overallAnswers.oq6) return false;
+  if(overallAnswers.decision===undefined) return false;
+  return true;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════════════
+function render(){
+  updateProgress();
+  const app = $('app');
+  const L=l();
+
+  if(currentPage===0){ renderCover(app,L); return; }
+  if(currentPage>=TOTAL_PAGES){ renderDone(app,L); return; }
+
+  const pageKey = PAGES[currentPage];
+  if(pageKey==='overall'){ renderOverall(app,L); return; }
+  renderConstruct(app, L, pageKey);
+}
+
+// ── Cover ─────────────────────────────────────────────────────────────
+function renderCover(app, L){
+  app.innerHTML = `
+    <div class="cover">
+      <div class="cover-badge">${L.badge}</div>
+      <h1>${L.title}</h1>
+      <h2>${L.subtitle}</h2>
+
+      <div class="instr-box">
+        <h3>${L.instrTitle}</h3>
+        <ul>${L.instrItems.map(i=>`<li>${i}</li>`).join('')}</ul>
+        <div class="scale-grid">
+          <div class="scale-chip" style="background:#FEE2E2;color:#991B1B"><strong>1</strong><br>${L.cviScale[0]}</div>
+          <div class="scale-chip" style="background:#FEF3C7;color:#78350F"><strong>2</strong><br>${L.cviScale[1]}</div>
+          <div class="scale-chip" style="background:#DBEAFE;color:#1D4ED8"><strong>3</strong><br>${L.cviScale[2]}</div>
+          <div class="scale-chip" style="background:#D1FAE5;color:#14532D"><strong>4</strong><br>${L.cviScale[3]}</div>
+        </div>
+        <div class="note-icvi" style="margin-top:10px;font-size:12px;opacity:.85">${L.noteIcvi}</div>
+      </div>
+
+      <div class="cover-meta">
+        <div><label>${L.profileFields[0]}</label>
+          <input type="text" value="${profile.name||''}" oninput="profile.name=this.value" placeholder="e.g. Dr. Ahmad Fauzi, M.T.">
+        </div>
+        <div><label>${L.profileFields[6]}</label>
+          <input type="date" value="${profile.date||''}" oninput="profile.date=this.value">
+        </div>
+        <div class="full"><label>${L.profileFields[1]}</label>
+          <input type="text" value="${profile.institution||''}" oninput="profile.institution=this.value" placeholder="e.g. Universitas Indonesia">
+        </div>
+        <div class="full"><label>${L.profileFields[2]}</label>
+          <input type="text" value="${profile.position||''}" oninput="profile.position=this.value" placeholder="e.g. Dosen / Lecturer">
+        </div>
+        <div><label>${L.profileFields[4]}</label>
+          <select onchange="profile.edu=this.value">
+            <option value="">—</option>
+            ${L.eduOpts.map(o=>`<option value="${o}" ${profile.edu===o?'selected':''}>${o}</option>`).join('')}
+          </select>
+        </div>
+        <div><label>${L.profileFields[5]}</label>
+          <select onchange="profile.exp=this.value">
+            <option value="">—</option>
+            ${L.expOpts.map(o=>`<option value="${o}" ${profile.exp===o?'selected':''}>${o}</option>`).join('')}
+          </select>
+        </div>
+        <div class="full"><label>${L.profileFields[3]}</label>
+          <select onchange="profile.expertise=this.value">
+            <option value="">—</option>
+            ${L.expertiseOpts.map(o=>`<option value="${o}" ${profile.expertise===o?'selected':''}>${o}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+
+      <button class="nav-btn nav-next" onclick="startSurvey()">${L.start}</button>
+    </div>`;
+}
+
+function startSurvey(){
+  if(!validateProfile()){ showToast(l().errProfile,'error'); return; }
+  if(!profile.date) profile.date = new Date().toISOString().split('T')[0];
+  currentPage=1; render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── Construct page ────────────────────────────────────────────────────
+function renderConstruct(app, L, code){
+  const con = CONSTRUCTS.find(c=>c.code===code);
+  const dimColor = 'dim-'+con.dim;
+  const dimLabel = L.dimLabels[con.dim]||con.dim;
+
+  let html = `<div class="section-hdr ${dimColor}">`;
+  html += `${dimLabel} &nbsp;›&nbsp; <strong>${con.name}</strong> [${con.code}]</div>`;
+
+  if(con.isNeg) html += `<div class="note-box note-neg">${L.noteNeg}</div>`;
+  if(con.isDV)  html += `<div class="note-box note-dv">${L.noteDV}</div>`;
+
+  html += `<div style="background:#F0F7FF;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#374151;border-left:4px solid #60A5FA">
+    <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#1D4ED8">${L.defLabel}</strong>
+    ${con.def[lang]}
+  </div>`;
+
+  // Items
+  con.items.forEach(item=>{
+    const answered = ['_c1','_c2','_c3','_c4','_cvi'].every(s=>answers[item.code+s]);
+    const CRITERIA = [
+      {cKey:'c1', label:L.c1Label, q:L.c1Q,                                  ph:L.fbPhC1},
+      {cKey:'c2', label:L.c2Label, q:L.c2Q,                                  ph:L.fbPhC2},
+      {cKey:'c3', label:L.c3Label, q:L.c3Q,                                  ph:L.fbPhC3},
+      {cKey:'c4', label:L.c4LabelFn(con.code), q:L.c4QFn(con.code,con.name), ph:L.fbPhC4},
+    ];
+    const criteriaRows = CRITERIA.map(cr=>{
+      const key = item.code+'_'+cr.cKey;
+      const fbKey = item.code+'_fb_'+cr.cKey;
+      const val = answers[key];
+      return `<tr>
+        <td class="crit-cell">
+          <div class="criterion-label">${cr.label}</div>
+          <div class="criterion-q">${cr.q}</div>
+        </td>
+        <td class="yn-cell">
+          <div class="yn-stack">
+            <button class="yn-btn yes ${val==='yes'?'active':''}" onclick="setYN('${key}','yes')">${L.yes}</button>
+            <button class="yn-btn no  ${val==='no' ?'active':''}" onclick="setYN('${key}','no')">${L.no}</button>
+          </div>
+        </td>
+        <td class="fb-cell">
+          <div class="fb-prompt">${cr.ph}</div>
+          <textarea placeholder="${cr.ph}"
+            oninput="answers['${fbKey}']=this.value">${answers[fbKey]||''}</textarea>
+        </td>
+      </tr>`;
+    }).join('');
+
+    html += `<div class="item-card ${answered?'answered':''}" id="card-${item.code}">
+      <div class="item-code">${item.code}</div>
+      <div class="item-name">${item.name}</div>
+      <div class="item-def">
+        <strong>${L.defLabel}</strong>
+        ${item.def[lang]}
+      </div>
+
+      <table class="criteria-table">
+        <thead>
+          <tr>
+            <th>${L.thCriteria}</th>
+            <th class="th-yn">${L.thAssessment}</th>
+            <th class="th-fb">${L.thComments}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${criteriaRows}
+          <tr class="addl-row">
+            <td class="crit-cell">
+              <div class="addl-label">${L.fbLabelAddl}</div>
+              <div class="addl-sub">${L.fbSubAddl}</div>
+            </td>
+            <td colspan="2" class="fb-cell">
+              <textarea placeholder="${L.fbPlaceholder}" rows="3"
+                oninput="answers['${item.code}_fb_addl']=this.value">${answers[item.code+'_fb_addl']||''}</textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="cvi-row">
+        <span class="cvi-label">${L.cviLabel}</span>
+        <div class="cvi-btns">
+          ${[1,2,3,4].map(v=>`
+            <button class="cvi-btn ${answers[item.code+'_cvi']===v?'active':''}"
+              data-val="${v}"
+              onclick="setCVI('${item.code+'_cvi'}',${v})"
+              title="${v} — ${L.cviScale[v-1]}">${v}</button>
+          `).join('')}
+        </div>
+        ${answers[item.code+'_cvi']?`<span style="font-size:12px;color:var(--muted)">${L.cviScale[answers[item.code+'_cvi']-1]}</span>`:''}
+      </div>
+    </div>`;
+  });
+
+  html += renderNav(L);
+  app.innerHTML = html;
+}
+
+// renderCriterion removed — now inline in renderConstruct
+
+// ── Overall page ──────────────────────────────────────────────────────
+function renderOverall(app, L){
+  const overallQs = [
+    {key:'oq1',q:L.overallQ1},{key:'oq2',q:L.overallQ2},{key:'oq3',q:L.overallQ3},
+    {key:'oq4',q:L.overallQ4},{key:'oq5',q:L.overallQ5},{key:'oq6',q:L.overallQ6},
+  ];
+  let html = `<div class="section-hdr dim-overall">${L.overallTitle}</div>`;
+
+  overallQs.forEach(({key,q})=>{
+    const val=getOverall(key);
+    html+=`<div class="overall-q">
+      <p>${q}</p>
+      <div class="yn-row" style="max-width:240px">
+        <button class="yn-btn yes ${val==='yes'?'active':''}" onclick="setOverall('${key}','yes')">${L.yes}</button>
+        <button class="yn-btn no  ${val==='no' ?'active':''}" onclick="setOverall('${key}','no')">${L.no}</button>
+      </div>
+    </div>`;
+  });
+
+  // Final decision
+  html += `<div class="section-hdr dim-overall" style="margin-top:28px">${L.finalTitle}</div>
+  <div class="final-decision">`;
+  L.finalOpts.forEach((opt,i)=>{
+    const sel=overallAnswers.decision===i;
+    html+=`<button class="decision-btn d${i} ${sel?'selected':''}" onclick="setOverall('decision',${i})">${opt}</button>`;
+  });
+  html+=`</div>`;
+
+  html+=`<div style="margin-top:20px">
+    <div class="feedback-wrap">
+      <label>${L.noteFinal}</label>
+      <textarea placeholder="${L.noteFinalPh}" rows="4"
+        oninput="overallAnswers.noteFinal=this.value">${overallAnswers.noteFinal||''}</textarea>
+    </div>
+  </div>`;
+
+  html += renderNav(L, true);
+  app.innerHTML = html;
+}
+
+// ── Nav bar ───────────────────────────────────────────────────────────
+function renderNav(L, isLast=false){
+  const pageNum = currentPage;
+  const pageLabel = L.pageOf(pageNum, TOTAL_PAGES-1);
+  return `<div class="nav-bar">
+    ${currentPage>1
+      ? `<button class="nav-btn nav-prev" onclick="goPrev()">${L.prev}</button>`
+      : `<div></div>`}
+    <div class="page-indicator">${pageLabel}</div>
+    ${isLast
+      ? `<button class="nav-btn nav-submit" onclick="submitForm()">${L.submit}</button>`
+      : `<button class="nav-btn nav-next" onclick="goNext()">${L.next}</button>`}
+  </div>`;
+}
+
+// ── Done ──────────────────────────────────────────────────────────────
+function renderDone(app, L){
+  const ts = new Date().toLocaleString();
+  app.innerHTML = `
+    <div class="thankyou">
+      <div class="thankyou-card">
+        <div class="check-icon"><i class="bi bi-check-lg"></i></div>
+        <h2>${L.thankyouTitle}</h2>
+        <p>${L.thankyouMsg}</p>
+        <div class="thankyou-divider"></div>
+        <div class="thankyou-meta">${ts}</div>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════════════
+function goNext(){
+  const pageKey = PAGES[currentPage];
+  if(pageKey !== 'overall' && pageKey !== 'cover'){
+    if(!validateConstruct(pageKey)){
+      showToast(l().errRequired,'error'); return;
+    }
+  }
+  currentPage++;
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goPrev(){
+  if(currentPage>1){ currentPage--; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// SUBMIT
+// ═══════════════════════════════════════════════════════════════════════
+function submitForm(){
+  const L=l();
+  if(!validateOverall()){ showToast(L.errRequired,'error'); return; }
+
+  // Build flat row
+  const row = {
+    timestamp: new Date().toISOString(),
+    language: lang,
+    name: profile.name||'',
+    institution: profile.institution||'',
+    position: profile.position||'',
+    expertise: profile.expertise||'',
+    education: profile.edu||'',
+    experience: profile.exp||'',
+    date: profile.date||'',
+  };
+
+  // All items
+  CONSTRUCTS.forEach(con=>{
+    con.items.forEach(item=>{
+      row[item.code+'_C1']     = answers[item.code+'_c1']||'';
+      row[item.code+'_C1_FB']  = answers[item.code+'_fb_c1']||'';
+      row[item.code+'_C2']     = answers[item.code+'_c2']||'';
+      row[item.code+'_C2_FB']  = answers[item.code+'_fb_c2']||'';
+      row[item.code+'_C3']     = answers[item.code+'_c3']||'';
+      row[item.code+'_C3_FB']  = answers[item.code+'_fb_c3']||'';
+      row[item.code+'_C4']     = answers[item.code+'_c4']||'';
+      row[item.code+'_C4_FB']  = answers[item.code+'_fb_c4']||'';
+      row[item.code+'_CVI']    = answers[item.code+'_cvi']||'';
+      row[item.code+'_NOTES']  = answers[item.code+'_fb_addl']||'';
+    });
+  });
+
+  // Overall
+  row['Overall_Q1']=overallAnswers.oq1||'';
+  row['Overall_Q2']=overallAnswers.oq2||'';
+  row['Overall_Q3']=overallAnswers.oq3||'';
+  row['Overall_Q4']=overallAnswers.oq4||'';
+  row['Overall_Q5']=overallAnswers.oq5||'';
+  row['Overall_Q6']=overallAnswers.oq6||'';
+  row['FinalDecision']=overallAnswers.decision!==undefined?L.finalOpts[overallAnswers.decision]:'';
+  row['FinalNotes']=overallAnswers.noteFinal||'';
+
+  // Show submitting state
+  showToast(L.submitting,'',60000);
+
+  if(!SHEETS_URL){
+    // Demo mode — no sheets_url parameter provided, just show success
+    setTimeout(()=>{
+      showToast(L.successMsg,'success');
+      currentPage = TOTAL_PAGES;
+      render();
+    },1200);
+    return;
+  }
+
+  fetch(SHEETS_URL, {
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(row)
+  }).then(()=>{
+    showToast(L.successMsg,'success');
+    currentPage = TOTAL_PAGES;
+    render();
+  }).catch(()=>{
+    showToast(L.errorMsg,'error',5000);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════════
+render();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     GOOGLE APPS SCRIPT — paste this into your Apps Script project
+     and deploy as a Web App (access: Anyone)
+     ═══════════════════════════════════════════════════════════════════
+
+function doPost(e) {
+  const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID_HERE';
+  const SHEET_NAME = 'Expert Judgment Responses';
+
+  try {
+    const data = JSON.parse(e.postData.contents);
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    let sheet = ss.getSheetByName(SHEET_NAME);
+
+    if (!sheet) {
+      sheet = ss.insertSheet(SHEET_NAME);
+      // Write header row
+      const headers = Object.keys(data);
+      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+      sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold');
+    }
+
+    // Append data row
+    const values = Object.values(data);
+    sheet.appendRow(values);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({status:'success'}))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({status:'error', message: err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  return ContentService.createTextOutput('Expert Judgment Survey API is running.');
+}
+
+-->
+</body>
+</html>

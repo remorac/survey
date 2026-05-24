@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+.zed/
+
+# Claude / agents
+.claude/
+CLAUDE.local.md
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node (in case tooling is added later)
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+.vite/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
