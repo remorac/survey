@@ -1019,16 +1019,6 @@ function renderConstruct(app, L) {
   });
   html += `</div>`;
 
-  // Additional feedback
-  html += `<div class="card bg-warning/10 border-warning/20 mb-6">
-    <div class="card-body p-5">
-      <div class="text-sm font-bold text-warning mb-1">${L.fbLabelAddl}</div>
-      <div class="text-xs text-base-content/60 mb-3">${L.fbSubAddl}</div>
-      <textarea class="textarea textarea-bordered w-full text-sm leading-relaxed" placeholder="${L.fbPlaceholder}" rows="3"
-        oninput="answers['${item.code}_fb_addl']=this.value;debouncedSave();"
-      >${esc(answers[item.code + '_fb_addl'] || '')}</textarea>
-    </div>
-  </div>`;
 
   // CVI
   const cviMissing = !answers[item.code + '_cvi'];
@@ -1048,6 +1038,17 @@ function renderConstruct(app, L) {
       }).join('')}
     </div>
     <div id="cvilabel-${item.code}" class="text-sm font-medium italic text-base-content/50 mt-2 ${answers[item.code + '_cvi'] ? '' : 'hidden'}">${answers[item.code + '_cvi'] ? L.cviScale[answers[item.code + '_cvi'] - 1] : ''}</div>
+  </div>`;
+
+  // Additional feedback
+  html += `<div class="card bg-warning/10 border-warning/20 mb-6">
+    <div class="card-body p-5">
+      <div class="text-sm font-bold text-warning mb-1">${L.fbLabelAddl}</div>
+      <div class="text-xs text-base-content/60 mb-3">${L.fbSubAddl}</div>
+      <textarea class="textarea textarea-bordered w-full text-sm leading-relaxed" placeholder="${L.fbPlaceholder}" rows="3"
+        oninput="answers['${item.code}_fb_addl']=this.value;debouncedSave();"
+      >${esc(answers[item.code + '_fb_addl'] || '')}</textarea>
+    </div>
   </div>`;
 
   // Item dots + arrows
